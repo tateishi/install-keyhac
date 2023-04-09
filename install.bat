@@ -67,8 +67,16 @@ if not exist %CONFIG_DIR% (
 )
 echo chdir %CONFIG_DIR%
 pushd %CONFIG_DIR%
-echo git clone %CONFIG_REPO%
-git clone %CONFIG_REPO%
+
+if exist %REPO_DIR% (
+    pushd %REPO_DIR%
+    git pull
+    popd
+) else (
+    git clone %CONFIG_REPO%
+)
+rem echo git clone %CONFIG_REPO%
+rem git clone %CONFIG_REPO%
 
 rem copy config file to app dir
 echo chdir %REPO_DIR%
