@@ -75,8 +75,13 @@ chdir %REPO_DIR%
 echo copy config.py %DEST%
 copy config.py %DEST%
 
+rem chdir to original directory
+
 echo chdir %RETURN_DIR%
 chdir %RETURN_DIR%
+
+rem install shortcut to startup folder
+wscript startup.vbs
 
 rem remove vars
 set MYAPP=
