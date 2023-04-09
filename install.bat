@@ -1,5 +1,7 @@
 @echo off
 
+setlocal
+
 rem setup variables.
 
 set MYAPP=%LOCALAPPDATA%\MyApp
@@ -83,15 +85,4 @@ chdir %RETURN_DIR%
 rem install shortcut to startup folder
 wscript startup.vbs
 
-rem remove vars
-set MYAPP=
-set TMP_DIR=
-set RETURN_DIR=
-set URL=
-set ARCHIVE=
-set ARCHIVE_DIR=
-set DEST=
-set DEST_DIR=
-set CONFIG_DIR=
-set CONFIG_REPO=
-set REPO_DIR=
+endlocal
