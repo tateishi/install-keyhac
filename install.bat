@@ -1,7 +1,16 @@
 @echo off
 
-rem setup variables.
 setlocal
+
+set /p answer="install keyhac (Y/N) OK?"
+if /i {%answer%}=={y} (goto :main)
+if /i {%answer%}=={yes} (goto :main)
+echo abort!
+pause 
+exit /b
+
+:main
+rem setup variables.
 set MYAPP=%LOCALAPPDATA%\MyApp
 set TMP_DIR=%TMP%\keyhac
 
@@ -90,3 +99,6 @@ rem install shortcut to startup folder
 wscript startup.vbs
 
 endlocal
+
+pause
+exit /b
