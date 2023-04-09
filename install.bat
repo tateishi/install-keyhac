@@ -1,12 +1,9 @@
 @echo off
 
-setlocal
-
 rem setup variables.
-
+setlocal
 set MYAPP=%LOCALAPPDATA%\MyApp
 set TMP_DIR=%TMP%\keyhac
-set RETURN_DIR=%cd%
 
 set URL="http://crftwr.github.io/keyhac/download/keyhac_182.zip"
 set ARCHIVE="keyhac_182.zip"
@@ -24,7 +21,7 @@ if not exist %TMP_DIR% (
     mkdir %TMP_DIR%
 )
 echo chdir %TMP_DIR%
-chdir %TMP_DIR%
+pushd %TMP_DIR%
 
 rem download archive file.
 rem echo curl -O %URL%
@@ -61,13 +58,15 @@ if exist %ARCHIVE_DIR% (
 rem del %ARCHIVE%
 del %ARCHIVE%
 
+popd
+
 rem clone config from github
 if not exist %CONFIG_DIR% (
     echo mkdir %CONFIG_DIR%
     mkdir %CONFIG_DIR%
 )
 echo chdir %CONFIG_DIR%
-chdir %CONFIG_DIR%
+pushd %CONFIG_DIR%
 echo git clone %CONFIG_REPO%
 git clone %CONFIG_REPO%
 
@@ -77,10 +76,7 @@ chdir %REPO_DIR%
 echo copy config.py %DEST%
 copy config.py %DEST%
 
-rem chdir to original directory
-
-echo chdir %RETURN_DIR%
-chdir %RETURN_DIR%
+popd
 
 rem install shortcut to startup folder
 wscript startup.vbs
