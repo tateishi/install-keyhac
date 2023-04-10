@@ -28,7 +28,7 @@ function Copy-KeyHac($src, $dest) {
 
 function Initialize-Archive {
     $url = "https://crftwr.github.io/keyhac/download/keyhac_182.zip"
-    $temp = Join-Path $env:TEMP keyhac
+    $temp = Join-Path $env:TEMP "Keyhac"
     $archive_file = "keyhac_182.zip"
     $archive_dir = Join-Path $temp "keyhac_182"
 
@@ -46,8 +46,8 @@ function Initialize-Archive {
 
 function Install-KeyHac {
     $temp = Join-Path $env:TEMP keyhac
-    $dest = Join-Path $env:LOCALAPPDATA "MyApp" | Join-Path -ChildPath "keyhac"
-    $src = Join-Path $temp "keyhac_182" | Join-Path -ChildPath "keyhac"
+    $dest = Join-Path $env:LOCALAPPDATA "Keyhac"
+    $src = Join-Path $temp "keyhac_182" | Join-Path -ChildPath "Keyhac"
 
     Push-Location $temp
 
@@ -59,8 +59,8 @@ function Install-KeyHac {
 function Remove-Archive {
     Push-Location $env:TEMP
 
-    if (Test-Path "keyhac") {
-        Remove-Item "keyhac" -Recurse
+    if (Test-Path "Keyhac") {
+        Remove-Item "Keyhac" -Recurse
     }
 
     Pop-Location
@@ -68,7 +68,7 @@ function Remove-Archive {
 
 function Initialize-ConfigDir {
     $location = Join-Path $env:USERPROFILE "wks"
-    $config_dir = "MyConfig"
+    $config_dir = "MyConfigs"
 
     Push-Location $location
     if (-Not(Test-Path $config_dir)) {
@@ -78,7 +78,7 @@ function Initialize-ConfigDir {
 }
 
 function Clone-Repository {
-    $location = Join-Path $env:USERPROFILE "wks" | Join-Path -ChildPath "MyConfig"
+    $location = Join-Path $env:USERPROFILE "wks" | Join-Path -ChildPath "MyConfigs"
     $repo = "https://github.com/tateishi/keyhac-config"
     $repo_dir = "keyhac-config"
 
@@ -94,10 +94,14 @@ function Clone-Repository {
 }
 
 function Copy-Config {
-    $location = Join-Path $env:USERPROFILE "wks" | Join-Path -ChildPath "MyConfig"
+    $location = Join-Path $env:USERPROFILE "wks" | Join-Path -ChildPath "MyConfigs"
     $repo_dir = Join-Path $location "keyhac-config"
 
-    $dest = Join-Path $env:LOCALAPPDATA "MyApp" | Join-Path -ChildPath "keyhac"
+    $dest = Join-Path $env:APPDATA "Keyhac"
+
+    if (-Not(Test-Path $dest)) {
+        New-Item $dest -ItemType Directory > $null
+    }
 
     Push-Location $repo_dir
     Copy-Item config.py $dest
@@ -106,8 +110,8 @@ function Copy-Config {
 
 function Add-Startup {
     $wsh = New-Object -ComObject Wscript.Shell
-    $path = Join-Path $wsh.SpecialFolders("Startup") "keyhac.lnk"
-    $target = Join-Path $env:LOCALAPPDATA "MyApp" | Join-Path -ChildPath "Keyhac" | Join-Path -ChildPath "keyhac.exe"
+    $path = Join-Path $wsh.SpecialFolders("Startup") "Keyhac.lnk"
+    $target = Join-Path $env:LOCALAPPDATA "Keyhac" | Join-Path -ChildPath "keyhac.exe"
 
     $shortcut = $wsh.CreateShortcut($path)
     $shortcut.TargetPath = $target
